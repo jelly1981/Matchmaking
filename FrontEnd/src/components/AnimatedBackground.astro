@@ -1,0 +1,34 @@
+---
+// 新 silk 背景组件（仅保留 silk 功能 + 增强参数）
+import '../styles/global.css';
+interface Props {
+  cols?: number; rows?: number; spacing?: number; cameraZ?: number; interactive?: boolean; pointSize?: number; dotColor?: string;
+  swapRightEdge?: boolean; twistEdgeWidth?: number; edgeFade?: number; brightnessPulse?: number; verticalWaveAmp?: number;
+  verticalWaveFreq?: number; rotateSpeed?: number; jitter?: number; preset?: string;
+}
+const p = Astro.props as Props;
+// 允许一个简单预设，方便 demo
+if (p.preset === 'demo' || p.preset === undefined) {
+  p.cols ??= 160; p.rows ??= 90; p.spacing ??= 0.12; p.cameraZ ??= 7.0; p.pointSize ??= 2.0; p.dotColor ??= '#ffffff';
+  p.swapRightEdge ??= true; p.twistEdgeWidth ??= 8; p.edgeFade ??= 0.6; p.brightnessPulse ??= 0.45;
+  p.verticalWaveAmp ??= 0.08; p.verticalWaveFreq ??= 2.0; p.rotateSpeed ??= 0.05; p.jitter ??= 0.004;
+}
+const bgProps = Object.fromEntries(Object.entries(p).filter(([,v]) => v !== undefined));
+---
+<div style="position:fixed;inset:0;z-index:0;" class="pointer-events-none">
+  <canvas id="bg-canvas" style="width:100%;height:100%;display:block;"></canvas>
+</div>
+<script>
+  import { initSilkBackground } from '../lib/silkBackground.ts';
+  const el = document.getElementById('__bg-props');
+  let cfg: any = {};
+  if (el) {
+    try { cfg = JSON.parse(el.textContent || '{}'); } catch(e){ console.warn('[AnimatedBackground] parse config failed', e); }
+  }
+  if (!window.__ibBg) {
+    const canvas = document.getElementById('bg-canvas');
+    // @ts-ignore
+    window.__ibBg = initSilkBackground(canvas, cfg);
+  }
+</script>
+<script type="application/json" id="__bg-props">{JSON.stringify(bgProps).replace(/</g,'\\u003c')}</script>

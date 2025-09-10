@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnimatedBackground from "../components/AnimatedBackground.astro";
+---
+<BaseLayout title="Home" description="Matchmaking static site">
+	<AnimatedBackground />
+	<section class="space-y-6">
+		<h1 class="text-4xl font-bold tracking-tight">Welcome</h1>
+		<p class="text-lg text-gray-600 max-w-prose">This site is generated statically by Astro and styled with Tailwind CSS.</p>
+		<a href="/about" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition">About Page →</a>
+	</section>
+</BaseLayout>

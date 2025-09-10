@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+const { title = 'Matchmaking Service', description = 'Static site powered by Astro + Tailwind' } = Astro.props;
+---
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="bg-white/80 backdrop-blur border-b border-gray-200">
+      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center gap-6">
+        <a href="/" class="font-semibold text-lg">Matchmaking</a>
+        <nav class="flex gap-4 text-sm">
+          <a href="/" class="hover:text-blue-600">Home</a>
+          <a href="/about" class="hover:text-blue-600">About</a>
+        </nav>
+      </div>
+    </header>
+    <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-10">
+      <slot />
+    </main>
+    <footer class="text-center text-xs text-gray-500 py-6 border-t border-gray-200">© {new Date().getFullYear()} Matchmaking Service</footer>
+  </body>
+</html>
