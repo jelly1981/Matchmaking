@@ -1,0 +1,41 @@
+services:
+  kaisei-ssr:
+    build:
+      context: ./matchmaking-website
+      dockerfile: Dockerfile.ssr
+    container_name: matchmaking-ssr
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "3"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4321
+    networks:
+      - headless-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.2'
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4321"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  db_data:
+
+networks:
+  headless-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1500
